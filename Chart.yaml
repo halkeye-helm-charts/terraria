@@ -1,0 +1,5 @@
+apiVersion: v1
+appVersion: "latest"
+description: Terraria is a 2D sandbox game with gameplay that revolves around exploration, building, combat, and mining.
+name: terraria
+version: 0.1.0
