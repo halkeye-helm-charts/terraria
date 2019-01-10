@@ -23,12 +23,22 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          tty: true
-          stdin: true
+          tty: false
+          stdin: false
+          args:
+            - "-autocreate"
+            - {{ include "terraria.worldsize" . | quote }}
+            - "-maxplayers"
+            - "8"
+            - "-world"
+            - "/world/{{ .Values.terraria.worldsize }}-Normal-{{ include "terraria.worldsize" . }}.wld"
           ports:
             - name: server
               containerPort: 7777
               protocol: TCP
+            - name: http
+              containerPort: 7878
+              protocol: http
           livenessProbe:
             tcpSocket:
               port: server

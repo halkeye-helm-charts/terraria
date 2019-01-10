@@ -11,9 +11,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: server
       protocol: TCP
-      name: http
+      name: server
   selector:
     app.kubernetes.io/name: {{ include "terraria.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}

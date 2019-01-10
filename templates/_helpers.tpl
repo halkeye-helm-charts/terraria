@@ -30,3 +30,16 @@ Create chart name and version as used by the chart label.
 {{- define "terraria.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+     Return the number representing the world size string
+*/}}
+{{- define "terraria.worldsize" -}}
+{{- if contains "large" .Values.terraria.worldsize }}
+{{- printf "3" }}
+{{- else if contains "medium" .Values.terraria.worldsize }}
+{{- printf "2" }}
+{{- else if contains "small" .Values.terraria.worldsize }}
+{{- printf "1" }}
+{{- end -}}
+{{- end -}}
