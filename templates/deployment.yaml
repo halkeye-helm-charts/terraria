@@ -26,10 +26,11 @@ spec:
           tty: false
           stdin: false
           args:
+            - "-killinactivesocket"
+            - "-config"
+            - "/config/terraria.json"
             - "-autocreate"
             - {{ include "terraria.worldsize" . | quote }}
-            - "-maxplayers"
-            - "8"
             - "-world"
             - "/world/{{ .Values.terraria.worldsize }}-Normal-{{ include "terraria.worldsize" . }}.wld"
           ports:
@@ -38,19 +39,26 @@ spec:
               protocol: TCP
             - name: http
               containerPort: 7878
-              protocol: http
+              protocol: TCP
           livenessProbe:
-            tcpSocket:
-              port: server
+            httpGet:
+              path: /
+              port: http
           readinessProbe:
-            tcpSocket:
-              port: server
+            httpGet:
+              path: /
+              port: http
           volumeMounts:
           - name: terraria-worlds
             mountPath: /world
+          - name: configmap
+            mountPath: /config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
+      - name: configmap
+        configMap:
+          name: {{ template "terraria.fullname" . }}
       - name: terraria-worlds
       {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
