@@ -15,6 +15,7 @@ fullnameOverride: ""
 service:
   type: NodePort
   port: 7777
+  annotations: {}
 
 terraria:
   worldsize: large
