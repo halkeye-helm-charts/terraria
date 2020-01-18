@@ -19,6 +19,8 @@ service:
 
 terraria:
   worldsize: large
+  # 0 normal, 1 expert (UNUSED)
+  difficulty: 0
   maxPlayers: 8
   settings:
     InvasionMultiplier: 1
