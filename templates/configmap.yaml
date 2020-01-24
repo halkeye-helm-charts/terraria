@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
-  terraria.json: |
+  config.json: |
 {{- if .Values.terraria.settings }}
 {{ toJson .Values.terraria.settings | indent 4 }}
 {{- end }}

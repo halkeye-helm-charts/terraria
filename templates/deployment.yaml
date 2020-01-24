@@ -23,6 +23,15 @@ spec:
         app.kubernetes.io/name: {{ include "terraria.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      initContainers:
+        - name: init-myservice
+          image: busybox:1.28
+          command: ['sh', '-c', 'cp /config/config.json /world/config.json; chmod 777 /world/config.json']
+          volumeMounts:
+          - name: terraria-worlds
+            mountPath: /world
+          - name: configmap
+            mountPath: /config
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -31,8 +40,6 @@ spec:
           stdin: false
           args:
             - "-killinactivesocket"
-            - "-config"
-            - "/config/terraria.json"
             - "-autocreate"
             - {{ include "terraria.worldsize" . | quote }}
             - "-world"
@@ -55,8 +62,6 @@ spec:
           volumeMounts:
           - name: terraria-worlds
             mountPath: /world
-          - name: configmap
-            mountPath: /config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
