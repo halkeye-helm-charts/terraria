@@ -14,5 +14,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args:  ['{{ include "terraria.fullname" . }}:{{ .Values.service.port }}']
+      args:  ['{{ include "terraria.fullname" . }}:{{ .Values.terraria.service.port }}']
   restartPolicy: Never

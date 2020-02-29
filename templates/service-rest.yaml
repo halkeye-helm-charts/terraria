@@ -1,7 +1,8 @@
+{{ if .Values.rest.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "terraria.fullname" . }}
+  name: {{ include "terraria.fullname" . }}-rest
   labels:
     app.kubernetes.io/name: {{ include "terraria.name" . }}
     helm.sh/chart: {{ include "terraria.chart" . }}
@@ -18,10 +19,11 @@ spec:
   loadBalancerIP: {{ .Values.terraria.service.loadBalancerIP }}
   {{ end }}
   ports:
-    - port: {{ .Values.terraria.service.port }}
-      targetPort: server
+    - port: 7878
+      targetPort: http
       protocol: TCP
-      name: server
+      name: http
   selector:
     app.kubernetes.io/name: {{ include "terraria.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

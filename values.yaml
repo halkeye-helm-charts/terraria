@@ -12,12 +12,18 @@ image:
 nameOverride: ""
 fullnameOverride: ""
 
-service:
-  type: NodePort
-  port: 7777
-  annotations: {}
+rest:
+  enabled: false
+  service:
+    type: NodePort
+    port: 7777
+    annotations: {}
 
 terraria:
+  service:
+    type: NodePort
+    port: 7777
+    annotations: {}
   worldsize: large
   # 0 normal, 1 expert (UNUSED)
   difficulty: 0
