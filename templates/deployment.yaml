@@ -26,7 +26,12 @@ spec:
       initContainers:
         - name: init-myservice
           image: busybox:1.28
-          command: ['sh', '-c', 'cp /config/config.json /world/config.json; chmod 777 /world/config.json']
+          command: ['sh']
+          args:
+            - -c
+            - |
+              cp /config/config.json /world/config.json
+              chmod 777 /world/config.json
           volumeMounts:
           - name: terraria-worlds
             mountPath: /world
