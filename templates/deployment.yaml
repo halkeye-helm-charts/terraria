@@ -45,10 +45,15 @@ spec:
           stdin: false
           args:
             - "-killinactivesocket"
+            {{- if .Values.terraria.worldfile }}
+            - "-world"
+            - {{ .Values.terraria.worldfile | quote }}
+            {{- else }}
             - "-autocreate"
             - {{ include "terraria.worldsize" . | quote }}
             - "-world"
             - "/world/{{ .Values.terraria.worldsize }}-Normal-{{ include "terraria.worldsize" . }}.wld"
+            {{- end }}
           ports:
             - name: server
               containerPort: 7777
