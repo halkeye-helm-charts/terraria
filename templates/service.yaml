@@ -6,15 +6,17 @@ metadata:
 {{ include "terraria.labels" . | indent 4 }}
   annotations:
     metallb.universe.tf/allow-shared-ip: {{ include "terraria.fullname" . }}
+{{- if .Values.terraria.service.annotations }}
 {{ toYaml .Values.terraria.service.annotations | indent 4 }}
+{{- end }}
 spec:
   type: {{ .Values.terraria.service.type }}
-  {{ if .Values.terraria.service.externalTrafficPolicy }}
+  {{- if .Values.terraria.service.externalTrafficPolicy }}
   externalTrafficPolicy: {{ .Values.terraria.service.externalTrafficPolicy }}
-  {{ end }}
-  {{ if .Values.terraria.service.loadBalancerIP }}
+  {{- end }}
+  {{- if .Values.terraria.service.loadBalancerIP }}
   loadBalancerIP: {{ .Values.terraria.service.loadBalancerIP }}
-  {{ end }}
+  {{- end }}
   ports:
     - port: {{ .Values.terraria.service.port }}
       targetPort: server
