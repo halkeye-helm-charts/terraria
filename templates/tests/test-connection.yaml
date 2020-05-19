@@ -3,10 +3,7 @@ kind: Pod
 metadata:
   name: "{{ include "terraria.fullname" . }}-test-connection"
   labels:
-    app.kubernetes.io/name: {{ include "terraria.name" . }}
-    helm.sh/chart: {{ include "terraria.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "terraria.labels" . | indent 4 }}
   annotations:
     "helm.sh/hook": test-success
 spec:

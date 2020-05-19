@@ -3,10 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "terraria.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "terraria.name" . }}
-    helm.sh/chart: {{ include "terraria.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "terraria.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
@@ -37,18 +34,26 @@ spec:
             mountPath: /world
           - name: configmap
             mountPath: /config
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ template "terraria.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          tty: false
-          stdin: false
+          tty: {{ .Values.terraria.tty }}
+          stdin: {{ .Values.terraria.stdin }}
           args:
-            - "-killinactivesocket"
-            {{- if .Values.terraria.worldfile }}
-            - "-world"
-            - {{ .Values.terraria.worldfile | quote }}
+            {{- if .Values.terraria.args }}
+            {{- toYaml .Values.terraria.args | nindent 12 }}
             {{- else }}
+            - "-killinactivesocket"
             - "-autocreate"
             - {{ include "terraria.worldsize" . | quote }}
             - "-world"

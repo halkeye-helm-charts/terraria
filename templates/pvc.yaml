@@ -4,10 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ template "terraria.fullname" . }}
   labels:
-    app: {{ template "terraria.name" . }}
-    chart: {{ template "terraria.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+{{ include "terraria.labels" . | indent 4 }}
   {{- with .Values.persistence.annotations  }}
   annotations:
 {{ toYaml . | indent 4 }}

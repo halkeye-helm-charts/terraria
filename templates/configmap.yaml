@@ -3,10 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "terraria.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "terraria.name" . }}
-    helm.sh/chart: {{ include "terraria.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "terraria.labels" . | indent 4 }}
 data:
   config.json: |
 {{- if .Values.terraria.settings }}

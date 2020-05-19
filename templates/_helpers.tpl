@@ -43,3 +43,27 @@ Create chart name and version as used by the chart label.
 {{- printf "1" }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "terraria.labels" -}}
+app.kubernetes.io/name: {{ include "terraria.name" . }}
+helm.sh/chart: {{ include "terraria.chart" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "terraria.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (include "terraria.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
