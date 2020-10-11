@@ -27,9 +27,8 @@ spec:
           args:
             - -c
             - |
-              mkdir -p /root/.local/share/Terraria/Worlds
-              cp /config/config.json /root/.local/share/Terraria/Worlds/config.json
-              chmod 777 /root/.local/share/Terraria/Worlds/config.json
+              cp /config/config.json /world/config.json
+              chmod 777 /world/config.json
           volumeMounts:
           - name: terraria-worlds
             mountPath: /world
@@ -59,6 +58,8 @@ spec:
             - {{ include "terraria.worldsize" . | quote }}
             - "-world"
             - "/world/{{ .Values.terraria.worldsize }}-Normal-{{ include "terraria.worldsize" . }}.wld"
+            - "-config"
+            - "/world/config.json"
             {{- end }}
           ports:
             - name: server
