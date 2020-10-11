@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: "latest"
 description: Terraria is a 2D sandbox game with gameplay that revolves around exploration, building, combat, and mining.
 name: terraria
-version: 0.4.0
+version: 0.4.1
 icon: https://gamepedia.cursecdn.com/terraria_gamepedia/c/c4/Terraria.png
 maintainers:
   - name: Gavin Mogan
