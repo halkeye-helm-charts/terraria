@@ -27,8 +27,8 @@ spec:
           args:
             - -c
             - |
-              cp /config/config.json /world/config.json
-              chmod 777 /world/config.json
+              cp /config/config.json /root/.local/share/Terraria/Worlds/config.json
+              chmod 777 /root/.local/share/Terraria/Worlds/config.json
           volumeMounts:
           - name: terraria-worlds
             mountPath: /world
