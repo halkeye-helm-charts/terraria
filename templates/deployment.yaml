@@ -57,7 +57,7 @@ spec:
             - "-autocreate"
             - {{ include "terraria.worldsize" . | quote }}
             - "-world"
-            - "/world/{{ .Values.terraria.worldsize }}-Normal-{{ include "terraria.worldsize" . }}.wld"
+            - "/root/.local/share/Terraria/Worlds/{{ .Values.terraria.worldsize }}-Normal-{{ include "terraria.worldsize" . }}.wld"
             {{- end }}
           ports:
             - name: server
@@ -76,7 +76,7 @@ spec:
 #              port: http
           volumeMounts:
           - name: terraria-worlds
-            mountPath: /world
+            mountPath: /root/.local/share/Terraria/Worlds
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
